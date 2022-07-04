@@ -35,11 +35,9 @@ begin
   $fclose(f);
 end
  
-always @(posedge clk) begin
-if (mem_write_en)
-  memory[ram_addr] <= mem_write_data;
-end
+//MEM WRITE LOGIC
 
-assign mem_read_data = (mem_read==1'b1) ? memory[ram_addr]: 16'd0; 
+//READ MEM LOGIC
+
 
 endmodule

@@ -8,11 +8,9 @@ module Instruction_Memory(
 reg [`col - 1:0] memory [`row_i - 1:0];
 wire [3 : 0] rom_addr = pc[4 : 1];
 
-initial
-begin
-$readmemb("./test/test.prog", memory,0,14);
-end
+//memory initialization
 
- assign instruction =  memory[rom_addr]; 
+//instruction bus...
+
 
 endmodule

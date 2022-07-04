@@ -7,6 +7,6 @@ module ALU(
  output zero
 );
 
-
+// ALU LOGIC OP
  
 endmodule

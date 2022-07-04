@@ -24,15 +24,11 @@ for(i=0;i<8;i=i+1)
   reg_array[i] <= 16'd0;
 end
 
-always @ (posedge clk ) begin
-  if(reg_write_en) begin
-  reg_array[reg_write_dest] <= reg_write_data;
-  end
-end
- 
+//WRITE EN LOGIC
 
-assign reg_read_data_1 = reg_array[reg_read_addr_1];
-assign reg_read_data_2 = reg_array[reg_read_addr_2];
+ 
+// READ LOGIC
+
 
 
 endmodule
