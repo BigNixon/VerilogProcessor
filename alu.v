@@ -5,7 +5,7 @@ module ALU(
  
  output reg [15:0] result,  //result 
  output zero
-    );
+);
 
 always @(*)
 begin 
@@ -25,4 +25,5 @@ begin
 end
 assign zero = (result==16'd0) ? 1'b1: 1'b0;
  
+
 endmodule

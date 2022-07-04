@@ -6,54 +6,58 @@ module Datapath_Unit(
  input[1:0] alu_op,
  output[3:0] opcode
 );
- reg  [15:0] pc_current;
- wire [15:0] pc_next,pc2;
- wire [15:0] instr;
- wire [2:0] reg_write_dest;
- wire [15:0] reg_write_data;
- wire [2:0] reg_read_addr_1;
- wire [15:0] reg_read_data_1;
- wire [2:0] reg_read_addr_2;
- wire [15:0] reg_read_data_2;
- wire [15:0] ext_im,read_data2;
- wire [2:0] ALU_Control;
- wire [15:0] ALU_out;
- wire zero_flag;
- wire [15:0] PC_j, PC_beq, PC_2beq,PC_2bne,PC_bne;
- wire beq_control;
- wire [12:0] jump_shift;
- wire [15:0] mem_read_data;
- // PC 
- initial begin
-  pc_current <= 16'd0;
- end
- always @(posedge clk)
- begin 
-   pc_current <= pc_next;
- end
- assign pc2 = pc_current + 16'd2;
- // instruction memory
- Instruction_Memory im(.pc(pc_current),.instruction(instr));
- // jump shift left 2
- assign jump_shift = {instr[11:0],1'b0};
- // multiplexer regdest
- assign reg_write_dest = (reg_dst==1'b1) ? instr[5:3] :instr[8:6];
- // register file
- assign reg_read_addr_1 = instr[11:9];
- assign reg_read_addr_2 = instr[8:6];
 
- // GENERAL PURPOSE REGISTERs
- GPRs reg_file
- (
-  .clk(clk),
-  .reg_write_en(reg_write),
-  .reg_write_dest(reg_write_dest),
-  .reg_write_data(reg_write_data),
-  .reg_read_addr_1(reg_read_addr_1),
-  .reg_read_data_1(reg_read_data_1),
-  .reg_read_addr_2(reg_read_addr_2),
-  .reg_read_data_2(reg_read_data_2)
- );
+reg  [15:0] pc_current;
+wire [15:0] pc_next,pc2;
+wire [15:0] instr;
+wire [2:0] reg_write_dest;
+wire [15:0] reg_write_data;
+wire [2:0] reg_read_addr_1;
+wire [15:0] reg_read_data_1;
+wire [2:0] reg_read_addr_2;
+wire [15:0] reg_read_data_2;
+wire [15:0] ext_im,read_data2;
+wire [2:0] ALU_Control;
+wire [15:0] ALU_out;
+wire zero_flag;
+wire [15:0] PC_j, PC_beq, PC_2beq,PC_2bne,PC_bne;
+wire beq_control;
+wire [12:0] jump_shift;
+wire [15:0] mem_read_data;
+ // PC 
+initial begin
+  pc_current <= 16'd0;
+end
+
+always @(posedge clk)
+begin 
+  pc_current <= pc_next;
+end
+
+assign pc2 = pc_current + 16'd2;
+
+// instruction memory
+Instruction_Memory im(.pc(pc_current),.instruction(instr));
+// jump shift left 2
+assign jump_shift = {instr[11:0],1'b0};
+// multiplexer regdest
+assign reg_write_dest = (reg_dst==1'b1) ? instr[5:3] :instr[8:6];
+// register file
+assign reg_read_addr_1 = instr[11:9];
+assign reg_read_addr_2 = instr[8:6];
+
+// GENERAL PURPOSE REGISTERs
+GPRs reg_file
+(
+.clk(clk),
+.reg_write_en(reg_write),
+.reg_write_dest(reg_write_dest),
+.reg_write_data(reg_write_data),
+.reg_read_addr_1(reg_read_addr_1),
+.reg_read_data_1(reg_read_data_1),
+.reg_read_addr_2(reg_read_addr_2),
+.reg_read_data_2(reg_read_data_2)
+);
  // immediate extend
  assign ext_im = {{10{instr[5]}},instr[5:0]};  
  // ALU control unit
